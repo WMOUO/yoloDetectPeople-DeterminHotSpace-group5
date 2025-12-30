@@ -1,6 +1,6 @@
 # yoloDetectPeople-DeterminHotSpace-group5
 
-![Project Cover](Docs/demo_cover.jpg)
+![Project Cover](Docs/demo_cover.png)
 
 ## 📖 專案簡介 (Introduction)
 

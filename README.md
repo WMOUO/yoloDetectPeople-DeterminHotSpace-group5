@@ -42,8 +42,6 @@
   - 累積「亮燈超過 10 秒」的次數
   - 用於判斷人流 **熱區（Hot Zone）**
 
----
-
 ## 🧠 系統流程概觀 (System Flow)
 
 1. 攝影機擷取即時畫面
@@ -54,24 +52,31 @@
 6. ESP8266 接收訊號 → 對應燈泡亮起
 7. Web Dashboard 即時更新燈泡狀態與統計數據
 
----
-
 ## 🛠️ 系統架構 (System Architecture)
 
+![Architecture](Docs/architecture.png)
+
 Camera
+
 ↓
+
 電腦視覺辨識（九宮格 + 手掌偵測）
+
 ↓
+
 AWS（MQTT Broker）
+
 ↓
+
 ESP8266
+
 ↓
+
 9 顆燈泡（對應九宮格）
+
 ↓
+
 Web Dashboard（狀態顯示 + 熱區分析）
-
-
----
 
 ## 🔧 技術堆疊 (Tech Stack)
 
@@ -86,8 +91,6 @@ Web Dashboard（狀態顯示 + 熱區分析）
 - **攝影機**：電腦內建或 USB Camera
 - **IoT 開發板**：ESP8266
 - **輸出裝置**：9 顆燈泡（LED）
-
----
 
 ## 🔌 硬體配置 (Hardware Setup)
 
@@ -104,10 +107,6 @@ Web Dashboard（狀態顯示 + 熱區分析）
 | 左下 | GPIO14 | LED 7 |
 | 下中 | GPIO15 | LED 8 |
 | 右下 | GPIO16 | LED 9 |
-
-（實際 GPIO 可依電路設計調整）
-
----
 
 ## 💻 安裝與執行 (Installation)
 
@@ -129,9 +128,11 @@ python main.py
 ### 2 ESP8266 設定
 
 使用 Arduino IDE 開啟 esp8266_mqtt.ino
+
 修改以下設定：
 - const char* ssid = "你的WiFi名稱";
 - const char* password = "你的WiFi密碼";
+
 上傳程式至 ESP8266
 
 ---

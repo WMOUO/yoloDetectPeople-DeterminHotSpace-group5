@@ -98,15 +98,15 @@ Web Dashboard（狀態顯示 + 熱區分析）
 
 | 九宮格位置 | GPIO | 燈泡 |
 |----------|------|------|
-| 左上 | GPIO0 | LED 1 |
-| 上中 | GPIO2 | LED 2 |
+| 左上 | GPIO16 | LED 1 |
+| 上中 | GPIO5 | LED 2 |
 | 右上 | GPIO4 | LED 3 |
-| 左中 | GPIO5 | LED 4 |
-| 中央 | GPIO12 | LED 5 |
-| 右中 | GPIO13 | LED 6 |
-| 左下 | GPIO14 | LED 7 |
-| 下中 | GPIO15 | LED 8 |
-| 右下 | GPIO16 | LED 9 |
+| 左中 | GPIO0 | LED 4 |
+| 中央 | GPIO2 | LED 5 |
+| 右中 | GPIO14 | LED 6 |
+| 左下 | GPIO12 | LED 7 |
+| 下中 | GPIO13 | LED 8 |
+| 右下 | GPIO15 | LED 9 |
 
 ## 💻 安裝與執行 (Installation)
 

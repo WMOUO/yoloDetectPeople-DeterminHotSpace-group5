@@ -54,7 +54,7 @@
 
 ## 🛠️ 系統架構 (System Architecture)
 
-![Architecture](Docs/architecture.png)
+![Architecture](Docs/architecture.jpg)
 
 Camera
 

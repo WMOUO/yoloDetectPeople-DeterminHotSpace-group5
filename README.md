@@ -94,7 +94,9 @@ Web Dashboard（狀態顯示 + 熱區分析）
 
 ## 🔌 硬體配置 (Hardware Setup)
 
-### ESP8266 燈泡對應說明（範例）
+![Wiring](Docs/wiring_diagram.jpg)
+
+### ESP8266 燈泡對應說明
 
 | 九宮格位置 | GPIO | 燈泡 |
 |----------|------|------|
@@ -127,7 +129,7 @@ python main.py
 
 ### 2 ESP8266 設定
 
-使用 Arduino IDE 開啟 esp8266_mqtt.ino
+使用 Arduino IDE 開啟 sketch_dec23a.ino
 
 修改以下設定：
 - const char* ssid = "你的WiFi名稱";

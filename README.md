@@ -10,6 +10,7 @@
 目前開發階段以 **手掌作為人物替代目標**，只要在任一格子中偵測到手掌，即視為該格子有人出現，並即時觸發對應的燈泡亮起。
 
 此系統可用於：
+
 - 人流熱區分析
 - 展覽互動裝置
 - 智慧照明
@@ -81,6 +82,7 @@ Web Dashboard（狀態顯示 + 熱區分析）
 ## 🔧 技術堆疊 (Tech Stack)
 
 ### 軟體
+
 - **Computer Vision**: Python / OpenCV / mediapipe
 - **Cloud**: AWS
 - **Messaging Protocol**: MQTT
@@ -88,6 +90,7 @@ Web Dashboard（狀態顯示 + 熱區分析）
 - **Data Processing**: Python
 
 ### 硬體
+
 - **攝影機**：電腦內建或 USB Camera
 - **IoT 開發板**：ESP8266
 - **輸出裝置**：9 顆燈泡（LED）
@@ -99,6 +102,7 @@ Web Dashboard（狀態顯示 + 熱區分析）
 ### ESP8266 燈泡對應說明
 
 | 九宮格位置 | GPIO | 燈泡 |
+
 |----------|------|------|
 | 左上 | GPIO16 | LED 1 |
 | 上中 | GPIO5 | LED 2 |
@@ -120,6 +124,7 @@ python main.py
 ```
 
 功能：
+
 - 啟動攝影機
 - 執行九宮格切割
 - 進行手掌偵測
@@ -132,6 +137,7 @@ python main.py
 使用 Arduino IDE 開啟 sketch_dec23a.ino
 
 修改以下設定：
+
 - const char* ssid = "你的WiFi名稱";
 - const char* password = "你的WiFi密碼";
 
@@ -146,10 +152,17 @@ cd Web_Dashboard
 uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
-
 功能：
+
 - 顯示 9 顆燈泡即時狀態
 - 統計每格開燈次數
 - 計算亮燈超過 10 秒的時間
 - 視覺化人流熱區
 
+## 👨‍💻 開發團隊
+
+{B11223211} {余光正} - 負責Web介面開發與系統整合
+
+{B11223217} {劉峻佑} - 負責ESP8266硬體接線與韌體
+
+{B11223228} {林元翔} - 負責AI模型訓練與部署

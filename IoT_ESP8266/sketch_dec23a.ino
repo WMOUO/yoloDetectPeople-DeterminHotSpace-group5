@@ -2,22 +2,13 @@
 #include <WiFiClientSecure.h>
 #include <PubSubClient.h>
 
-// ==========================================
-// 1. Wi-Fi 設定
-// ==========================================
 const char* WIFI_SSID = "wifi_name";
 const char* WIFI_PASSWORD = "wifi_password";
 
-// ==========================================
-// 2. AWS 設定 (請填入 B 組員給的資料)
-// ==========================================
 const char* AWS_IOT_ENDPOINT = "a10eer929bk2gd-ats.iot.us-east-1.amazonaws.com";
 const char* AWS_IOT_TOPIC = "project/esp8266_led";
 const char* AWS_IOT_CLIENT_ID = "ESP8266_9Grid_Project";
 
-// ==========================================
-// 3. AWS 憑證 (請填入 B 組員給的資料)
-// ==========================================
 static const char AWS_CERT_CA[] PROGMEM = R"EOF(
 -----BEGIN CERTIFICATE-----
 MIIDQTCCAimgAwIBAgITBmyfz5m/jAo54vB4ikPmljZbyjANBgkqhkiG9w0BAQsF
@@ -95,11 +86,6 @@ MLZc8JSTpVxfmeaRYtHj6GSU8PE9aM8TZkPZbMkXHwW/36BjCqG3AiDCBgN0cHql
 -----END RSA PRIVATE KEY-----
 )EOF";
 
-// ==========================================
-// 4. 九宮格腳位設定 (關鍵修改)
-// ==========================================
-// 我們使用 D0 ~ D8 共 9 支腳位
-// 對應順序：第1格(D0), 第2格(D1)... 到 第9格(D8)
 const int LED_COUNT = 9;
 const int LED_PINS[LED_COUNT] = {D0, D1, D2, D3, D4, D5, D6, D7, D8};
 
@@ -117,13 +103,10 @@ void connectAWS() {
   }
   Serial.println("\nWi-Fi Connected!");
 
-  // ========================================================
-  // 請新增這段：NTP 對時 (修復 rc=-2 的關鍵)
-  // ========================================================
   Serial.print("Setting time using SNTP");
-  configTime(0, 0, "pool.ntp.org", "time.nist.gov"); // 向網路校時伺服器抓時間
+  configTime(0, 0, "pool.ntp.org", "time.nist.gov"); 
   time_t now = time(nullptr);
-  while (now < 1000) { // 如果時間小於 1000 (代表還是 1970年)，就繼續等
+  while (now < 1000) { 
     delay(500);
     Serial.print(".");
     now = time(nullptr);
@@ -133,9 +116,6 @@ void connectAWS() {
   gmtime_r(&now, &timeinfo);
   Serial.print("Current time: ");
   Serial.print(asctime(&timeinfo));
-  // ========================================================
-  // 新增結束
-  // ========================================================
 
   net.setTrustAnchors(new X509List(AWS_CERT_CA));
   net.setClientRSACert(new X509List(AWS_CERT_CRT), new PrivateKey(AWS_CERT_PRIVATE));
@@ -159,12 +139,8 @@ void connectAWS() {
   }
 }
 
-// 輔助函式：切換燈光
-// 輸入 1-9 代表亮哪一顆，輸入 0 代表全關
 void switchLED(int targetZone) {
   for (int i = 0; i < LED_COUNT; i++) {
-    // 陣列索引是 0~8，所以 targetZone 要減 1
-    // 如果目前的索引 i 等於 (目標區域 - 1)，就開燈，否則關燈
     if (i == (targetZone - 1)) {
       digitalWrite(LED_PINS[i], HIGH);
     } else {
@@ -173,8 +149,6 @@ void switchLED(int targetZone) {
   }
 }
 
-// 訊息處理函式
-// 收到訊息時的處理邏輯 (針對 11/10 協議修正版)
 void messageHandler(char* topic, byte* payload, unsigned int length) {
   String message = "";
   for (int i = 0; i < length; i++) {
@@ -182,32 +156,29 @@ void messageHandler(char* topic, byte* payload, unsigned int length) {
   }
   
   Serial.print("Received: ");
-  Serial.println(message); // 這裡會印出收到的原始訊息，例如 "11" 或 "20"
+  Serial.println(message); 
 
-  int val = message.toInt();   // 把字串 "11" 轉成數字 11
-  int targetZone = val / 10;   // 十位數：11 / 10 = 1 (第1格)
-  int state = val % 10;        // 個位數：11 % 10 = 1 (亮)
+  int val = message.toInt();   
+  int targetZone = val / 10;   
+  int state = val % 10;        
 
-  // 檢查是否在 1~9 的範圍內
   if (targetZone >= 1 && targetZone <= 9) {
-    // 陣列索引是 0 開始，所以要減 1 (第1格是對應 LED_PINS[0])
     int pinIndex = targetZone - 1;
 
     if (state == 1) {
-      digitalWrite(LED_PINS[pinIndex], HIGH); // 亮燈
+      digitalWrite(LED_PINS[pinIndex], HIGH); 
       Serial.print("Action: Zone ");
       Serial.print(targetZone);
       Serial.println(" -> ON");
     } 
     else if (state == 0) {
-      digitalWrite(LED_PINS[pinIndex], LOW);  // 關燈
+      digitalWrite(LED_PINS[pinIndex], LOW);  
       Serial.print("Action: Zone ");
       Serial.print(targetZone);
       Serial.println(" -> OFF");
     }
   } 
   else {
-    // 收到奇怪的數字 (例如 99 或 0)
     Serial.println("Ignore: Invalid zone command");
   }
 }
@@ -215,7 +186,6 @@ void messageHandler(char* topic, byte* payload, unsigned int length) {
 void setup() {
   Serial.begin(115200);
 
-  // 初始化所有腳位為 OUTPUT，並先關閉
   for (int i = 0; i < LED_COUNT; i++) {
     pinMode(LED_PINS[i], OUTPUT);
     digitalWrite(LED_PINS[i], LOW);
